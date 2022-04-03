@@ -14,7 +14,7 @@ apply plugin: 'org.spongepowered.mixin'
 
 version = "1.12.2-${version}"
 group = "meldexun.${modid}"
-archivesBaseName = "${name}"
+archivesBaseName = "${modname}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
@@ -81,13 +81,13 @@ jar {
     }
 
     manifest {
+        // attributes 'FMLAT': 'accesstransformer.cfg'
         attributes 'FMLCorePlugin': "${pluginClass}"
         attributes 'FMLCorePluginContainsFMLMod': 'true'
-        // attributes 'FMLAT': 'accesstransformer.cfg'
-        //attributes 'ForceLoadAsMod': 'true'
-        //attributes 'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker'
-        //attributes 'TweakOrder': '0'
-        //attributes 'MixinConfigs': 'mixins.entityculling.json'
+        attributes 'ForceLoadAsMod': 'true'
+        attributes 'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker'
+        attributes 'TweakOrder': '0'
+        attributes 'MixinConfigs': 'mixins.${modid}.json'
     }
 }
 
