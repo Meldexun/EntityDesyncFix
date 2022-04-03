@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "meldexun.entity_desync_fix.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "mixins.entity_desync_fix.refmap.json",
+  "mixins": [
+    "MixinEntity",
+    "MixinEntityTrackerEntry",
+    "MixinSPacketEntityTeleport",
+    "MixinSPacketEntityVelocity"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

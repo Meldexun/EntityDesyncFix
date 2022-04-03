@@ -1,0 +1,10 @@
+[
+{
+  "modid": "entity_desync_fix",
+  "name": "EntityDesyncFix",
+  "description": "Fix entity motion desync (for example arrows or thrown items)",
+  "version": "1.0.0",
+  "mcversion": "1.12.2",
+  "authorList": ["Meldexun"]
+}
+]

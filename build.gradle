@@ -1,0 +1,98 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7.+'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+apply plugin: 'org.spongepowered.mixin'
+
+version = "1.12.2-${version}"
+group = "meldexun.${modid}"
+archivesBaseName = "${name}"
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+
+minecraft {
+    mappings channel: 'stable', version: '39-1.12'
+
+    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    runs {
+        client {
+            taskName "runClient ${identifier} 1.12"
+            environment 'MC_VERSION', '1.12'
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'info'
+            property 'fml.coreMods.load', "${pluginClass}"
+        }
+
+        server {
+            taskName "runServer ${identifier} 1.12"
+            environment 'MC_VERSION', '1.12'
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'info'
+            property 'fml.coreMods.load', "${pluginClass}"
+        }
+    }
+}
+
+configurations {
+    includedDependencies
+    buildDependencies
+
+    implementation.extendsFrom(includedDependencies)
+}
+
+repositories {
+    ivy {
+        url 'https://github.com/'
+
+        patternLayout {
+            artifact '[organisation]/[module]/releases/download/v[revision]/[module]-[revision].[ext]'
+        }
+
+        metadataSources { artifact() } 
+    }
+
+    maven { url = 'https://www.cursemaven.com' }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
+
+    implementation 'org.spongepowered:mixin:0.8.5'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+mixin {
+    add sourceSets.main, "mixins.${modid}.refmap.json"
+    config "mixins.${modid}.json"
+}
+
+jar {
+    from {
+        configurations.includedDependencies.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    manifest {
+        attributes 'FMLCorePlugin': "${pluginClass}"
+        attributes 'FMLCorePluginContainsFMLMod': 'true'
+        // attributes 'FMLAT': 'accesstransformer.cfg'
+        //attributes 'ForceLoadAsMod': 'true'
+        //attributes 'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker'
+        //attributes 'TweakOrder': '0'
+        //attributes 'MixinConfigs': 'mixins.entityculling.json'
+    }
+}
+
+jar.finalizedBy('reobfJar')
+
+compileJava {
+    classpath = sourceSets.main.compileClasspath + configurations.buildDependencies
+}
