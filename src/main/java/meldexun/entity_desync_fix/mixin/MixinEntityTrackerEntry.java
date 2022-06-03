@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import meldexun.entity_desync_fix.util.IPrevMotion;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityTrackerEntry;
 

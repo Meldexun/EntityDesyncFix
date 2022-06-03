@@ -1,4 +1,4 @@
-package meldexun.entity_desync_fix.mixin;
+package meldexun.entity_desync_fix.util;
 
 public interface IPrevMotion {
 

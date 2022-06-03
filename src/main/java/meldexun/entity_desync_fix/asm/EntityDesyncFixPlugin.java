@@ -4,15 +4,11 @@ import java.util.Map;
 
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.MixinEnvironment;
-import org.spongepowered.asm.mixin.Mixins;
 
-import meldexun.entity_desync_fix.EntityDesyncFix;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
 @IFMLLoadingPlugin.MCVersion("1.12.2")
-@IFMLLoadingPlugin.TransformerExclusions({
-	"meldexun." + EntityDesyncFix.MODID + ".asm",
-	"meldexun." + EntityDesyncFix.MODID + ".mixin" })
+@IFMLLoadingPlugin.TransformerExclusions("meldexun.entity_desync_fix.asm")
 public class EntityDesyncFixPlugin implements IFMLLoadingPlugin {
 
 	@Override
@@ -32,9 +28,10 @@ public class EntityDesyncFixPlugin implements IFMLLoadingPlugin {
 
 	@Override
 	public void injectData(Map<String, Object> data) {
-		MixinBootstrap.init();
-		Mixins.addConfiguration("mixins." + EntityDesyncFix.MODID + ".json");
-		MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
+		if (Boolean.FALSE.equals(data.get("runtimeDeobfuscationEnabled"))) {
+			MixinBootstrap.init();
+			MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
+		}
 	}
 
 	@Override
