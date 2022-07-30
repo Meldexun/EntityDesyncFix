@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import meldexun.entity_desync_fix.util.IPrevMotion;
 import net.minecraft.entity.Entity;
@@ -12,6 +14,19 @@ import net.minecraft.entity.EntityTrackerEntry;
 
 @Mixin(EntityTrackerEntry.class)
 public class MixinEntityTrackerEntry {
+
+	/** {@link EntityTrackerEntry#EntityTrackerEntry(Entity, int, int, int, boolean)} */
+	@Inject(method = "<init>", at = @At("RETURN"))
+	public void init(Entity entityIn, int rangeIn, int maxRangeIn, int updateFrequencyIn, boolean sendVelocityUpdatesIn, CallbackInfo info) {
+		entityIn.prevPosX = entityIn.posX;
+		entityIn.prevPosY = entityIn.posY;
+		entityIn.prevPosZ = entityIn.posZ;
+		((IPrevMotion) entityIn).setPrevMotionX(entityIn.motionX);
+		((IPrevMotion) entityIn).setPrevMotionY(entityIn.motionY);
+		((IPrevMotion) entityIn).setPrevMotionZ(entityIn.motionZ);
+	}
+
+
 
 	/** {@link EntityTrackerEntry#updatePlayerList(List)} */
 	@Redirect(method = "updatePlayerList", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;posX:D"))
