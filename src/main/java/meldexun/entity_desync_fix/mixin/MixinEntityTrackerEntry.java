@@ -29,6 +29,17 @@ public class MixinEntityTrackerEntry {
 
 
 	/** {@link EntityTrackerEntry#updatePlayerList(List)} */
+	@Redirect(method = "updatePlayerList", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getDistanceSq(DDD)D"))
+	public double getDistanceSq(Entity entity, double x, double y, double z) {
+		double dx = x - entity.prevPosX;
+		double dy = y - entity.prevPosY;
+		double dz = z - entity.prevPosZ;
+		return dx * dx + dy * dy + dz * dz;
+	}
+
+
+
+	/** {@link EntityTrackerEntry#updatePlayerList(List)} */
 	@Redirect(method = "updatePlayerList", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;posX:D"))
 	public double getPosX(Entity entity) {
 		return entity.prevPosX;
