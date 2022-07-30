@@ -42,13 +42,28 @@ public class MixinEntity implements IPrevMotion {
 	}
 
 	@Override
+	public void setPrevMotionX(double prevMotionX) {
+		this.prevMotionX = prevMotionX;
+	}
+
+	@Override
 	public double getPrevMotionY() {
 		return prevMotionY;
 	}
 
 	@Override
+	public void setPrevMotionY(double prevMotionY) {
+		this.prevMotionY = prevMotionY;
+	}
+
+	@Override
 	public double getPrevMotionZ() {
 		return prevMotionZ;
+	}
+
+	@Override
+	public void setPrevMotionZ(double prevMotionZ) {
+		this.prevMotionZ = prevMotionZ;
 	}
 
 }
