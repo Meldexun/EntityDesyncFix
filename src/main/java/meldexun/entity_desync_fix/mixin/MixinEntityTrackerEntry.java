@@ -61,19 +61,39 @@ public class MixinEntityTrackerEntry {
 
 	/** {@link EntityTrackerEntry#updatePlayerList(List)} */
 	@Redirect(method = "updatePlayerList", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;motionX:D"))
-	public double getMotionX(Entity entity) {
+	public double getMotionX1(Entity entity) {
 		return ((IPrevMotion) entity).getPrevMotionX();
 	}
 
 	/** {@link EntityTrackerEntry#updatePlayerList(List)} */
 	@Redirect(method = "updatePlayerList", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;motionY:D"))
-	public double getMotionY(Entity entity) {
+	public double getMotionY1(Entity entity) {
 		return ((IPrevMotion) entity).getPrevMotionY();
 	}
 
 	/** {@link EntityTrackerEntry#updatePlayerList(List)} */
 	@Redirect(method = "updatePlayerList", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;motionZ:D"))
-	public double getMotionZ(Entity entity) {
+	public double getMotionZ1(Entity entity) {
+		return ((IPrevMotion) entity).getPrevMotionZ();
+	}
+
+
+
+	/** {@link EntityTrackerEntry#updatePlayerEntity(EntityPlayerMP)} */
+	@Redirect(method = "updatePlayerEntity", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;motionX:D"))
+	public double getMotionX2(Entity entity) {
+		return ((IPrevMotion) entity).getPrevMotionX();
+	}
+
+	/** {@link EntityTrackerEntry#updatePlayerEntity(EntityPlayerMP)} */
+	@Redirect(method = "updatePlayerEntity", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;motionY:D"))
+	public double getMotionY2(Entity entity) {
+		return ((IPrevMotion) entity).getPrevMotionY();
+	}
+
+	/** {@link EntityTrackerEntry#updatePlayerEntity(EntityPlayerMP)} */
+	@Redirect(method = "updatePlayerEntity", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;motionZ:D"))
+	public double getMotionZ2(Entity entity) {
 		return ((IPrevMotion) entity).getPrevMotionZ();
 	}
 
