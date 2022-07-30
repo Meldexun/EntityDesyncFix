@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import meldexun.entity_desync_fix.util.IPrevMotion;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityTrackerEntry;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 @Mixin(EntityTrackerEntry.class)
 public class MixinEntityTrackerEntry {
@@ -41,19 +42,19 @@ public class MixinEntityTrackerEntry {
 
 	/** {@link EntityTrackerEntry#updatePlayerList(List)} */
 	@Redirect(method = "updatePlayerList", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;posX:D"))
-	public double getPosX(Entity entity) {
+	public double getPosX1(Entity entity) {
 		return entity.prevPosX;
 	}
 
 	/** {@link EntityTrackerEntry#updatePlayerList(List)} */
 	@Redirect(method = "updatePlayerList", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;posY:D"))
-	public double getPosY(Entity entity) {
+	public double getPosY1(Entity entity) {
 		return entity.prevPosY;
 	}
 
 	/** {@link EntityTrackerEntry#updatePlayerList(List)} */
 	@Redirect(method = "updatePlayerList", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;posZ:D"))
-	public double getPosZ(Entity entity) {
+	public double getPosZ1(Entity entity) {
 		return entity.prevPosZ;
 	}
 
@@ -95,6 +96,20 @@ public class MixinEntityTrackerEntry {
 	@Redirect(method = "updatePlayerEntity", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;motionZ:D"))
 	public double getMotionZ2(Entity entity) {
 		return ((IPrevMotion) entity).getPrevMotionZ();
+	}
+
+
+
+	/** {@link EntityTrackerEntry#isVisibleTo(EntityPlayerMP)} */
+	@Redirect(method = "isVisibleTo", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/EntityPlayerMP;posX:D"))
+	public double getPosX2(EntityPlayerMP player) {
+		return player.prevPosX;
+	}
+
+	/** {@link EntityTrackerEntry#isVisibleTo(EntityPlayerMP)} */
+	@Redirect(method = "isVisibleTo", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/EntityPlayerMP;posZ:D"))
+	public double getPosZ2(EntityPlayerMP player) {
+		return player.prevPosZ;
 	}
 
 }
